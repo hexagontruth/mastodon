@@ -39,7 +39,7 @@ class MediaAttachment < ApplicationRecord
   MAX_DESCRIPTION_LENGTH = 1_500
 
   IMAGE_LIMIT = 10.megabytes
-  VIDEO_LIMIT = 40.megabytes
+  VIDEO_LIMIT = 50.megabytes
 
   MAX_VIDEO_MATRIX_LIMIT = 2_304_000 # 1920x1200px
   MAX_VIDEO_FRAME_RATE   = 60
@@ -98,12 +98,13 @@ class MediaAttachment < ApplicationRecord
       output: {
         'loglevel' => 'fatal',
         'movflags' => 'faststart',
-        'pix_fmt' => 'yuv420p',
+        'pix_fmt' => 'yuvj420p',
         'vf' => 'scale=\'trunc(iw/2)*2:trunc(ih/2)*2\'',
         'vsync' => 'cfr',
         'c:v' => 'h264',
         'maxrate' => '2400K', #'1300K',
         'bufsize' => '3600K', #'1300K',
+        'preset' => 'slow',
         'frames:v' => 60 * 60 * 3,
         'crf' => 18,
         'map_metadata' => '-1',
