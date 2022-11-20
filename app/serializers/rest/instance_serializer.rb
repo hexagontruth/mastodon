@@ -88,7 +88,7 @@ class REST::InstanceSerializer < ActiveModel::Serializer
   end
 
   def max_toot_chars
-    720
+    4320
   end
 
   private
