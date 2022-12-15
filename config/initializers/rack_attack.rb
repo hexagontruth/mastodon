@@ -62,7 +62,7 @@ class Rack::Attack
     IpBlock.blocked?(req.remote_ip)
   end
 
-  throttle('throttle_authenticated_api', limit: 600, period: 5.minutes) do |req|
+  throttle('throttle_authenticated_api', limit: 720, period: 5.minutes) do |req|
     req.authenticated_user_id if req.api_request?
   end
 
@@ -74,7 +74,7 @@ class Rack::Attack
     req.authenticated_user_id if req.post? && req.path.match?(/\A\/api\/v\d+\/media\z/i)
   end
 
-  throttle('throttle_media_proxy', limit: 30, period: 10.minutes) do |req|
+  throttle('throttle_media_proxy', limit: 360, period: 10.minutes) do |req|
     req.throttleable_remote_ip if req.path.start_with?('/media_proxy')
   end
 
