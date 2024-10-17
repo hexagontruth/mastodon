@@ -5,7 +5,7 @@ module Paperclip
   # to check when uploaded videos are actually gifv's
   class Transcoder < Paperclip::Processor
     # This is the H.264 "High" value taken from https://www.dr-lex.be/info-stuff/videocalc.html
-    BITS_PER_PIXEL = 0.11
+    BITS_PER_PIXEL = 0.25
 
     def initialize(file, options = {}, attachment = nil)
       super
@@ -45,7 +45,7 @@ module Paperclip
           desired_bitrate = (metadata.width * metadata.height * 30 * BITS_PER_PIXEL).floor
           duration = [metadata.duration, 1].max
           maximum_bitrate = (size_limit_in_bits / duration).floor - 192_000 # Leave some space for the audio stream
-          bitrate = [desired_bitrate, maximum_bitrate].min
+          bitrate = [desired_bitrate, maximum_bitrate, 3600_000].min
 
           @output_options['b:v']     = bitrate
           @output_options['maxrate'] = bitrate + 192_000
